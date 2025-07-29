@@ -1,5 +1,6 @@
 package at.tom;
 
+import at.tom.engine.graphics.api.Color;
 import at.tom.engine.graphics.api.GraphicDraw2D;
 import at.tom.engine.position.Vector2D;
 
@@ -7,7 +8,7 @@ public class GraphicDraw2DImp extends GraphicDraw2D {
     @Override
     public void draw() {
         strokeWidth(0.01f);
-        stroke(0, 1, 0);
+        stroke(Color.GREEN);
         line(-1f, -1f, 0.9f, 0.9f);
         fill(0.5f, 0.5f, 0.5f);
         rect(-0.8f, -0.8f, 0.8f, 0.7f);
