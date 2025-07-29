@@ -1,11 +1,11 @@
-package at.tom.engine.graphics;
+package at.tom.engine.graphics.api;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import static org.lwjgl.opengl.GL11.*;
 
-abstract public class GraphicDraw {
+abstract public class GraphicDraw2D {
 
     private static final Logger LOG = LogManager.getLogger();
 
@@ -127,6 +127,16 @@ abstract public class GraphicDraw {
         glVertex2f(startX + hX, startY - hY);
         glVertex2f(startX - hX, startY - hY);
         glEnd();
+    }
+
+    public void point(float x, float y) {
+        glBegin(GL_POINTS);
+        glVertex2f(x, y);
+        glEnd();
+    }
+
+    public DrawPoints2D points() {
+        return new DrawPoints2D();
     }
 
 }

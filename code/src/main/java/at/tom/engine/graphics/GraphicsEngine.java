@@ -1,5 +1,6 @@
 package at.tom.engine.graphics;
 
+import at.tom.engine.graphics.api.GraphicDraw2D;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -32,20 +33,20 @@ public class GraphicsEngine {
     private long frameCount = 0;
     private float fps = 0;
     private GraphicsSurveillanceThread surveillanceThread;
-    private GraphicDraw graphicDraw;
+    private GraphicDraw2D graphicDraw2D;
 
     //region Constructor
-    public GraphicsEngine(GraphicDraw graphicDraw) {
-        this.graphicDraw = graphicDraw;
-        this.graphicDraw.height = windowHeight;
-        this.graphicDraw.width = windowWidth;
+    public GraphicsEngine(GraphicDraw2D graphicDraw2D) {
+        this.graphicDraw2D = graphicDraw2D;
+        this.graphicDraw2D.height = windowHeight;
+        this.graphicDraw2D.width = windowWidth;
     }
 
-    public GraphicsEngine(GraphicDraw graphicDraw,String windowTitle) {
-        this.graphicDraw = graphicDraw;
+    public GraphicsEngine(GraphicDraw2D graphicDraw2D, String windowTitle) {
+        this.graphicDraw2D = graphicDraw2D;
         this.windowTitle = windowTitle;
-        this.graphicDraw.height = windowHeight;
-        this.graphicDraw.width = windowWidth;
+        this.graphicDraw2D.height = windowHeight;
+        this.graphicDraw2D.width = windowWidth;
     }
     //endregion
 
@@ -116,8 +117,8 @@ public class GraphicsEngine {
         glfwSetWindowSizeCallback(window, (window, width, height) -> {
             this.windowHeight = height;
             this.windowWidth = width;
-            graphicDraw.height = height;
-            graphicDraw.width = width;
+            graphicDraw2D.height = height;
+            graphicDraw2D.width = width;
             LOG.debug("Windows resized to size: {}x{}", width, height);
             glViewport(0, 0, width, height);
         });
@@ -194,7 +195,7 @@ public class GraphicsEngine {
         glVertex2f(1.0f, -1.0f);
         glEnd(); */
 
-        graphicDraw.draw();
+        graphicDraw2D.draw();
     }
 
     private void stop() {

@@ -1,4 +1,4 @@
-package at.tom.engine.graphics;
+package at.tom.engine.graphics.api;
 
 public class Color {
 
