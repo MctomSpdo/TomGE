@@ -15,6 +15,9 @@ abstract public class GraphicDraw {
     private Color fill;
     private Color background = new Color(0,0,0);
 
+    public int height;
+    public int width;
+
     abstract public void draw();
 
     //region Stroke
@@ -82,27 +85,57 @@ abstract public class GraphicDraw {
         endX = convertX(endX);
         endY = convertY(endY);
 
-        if(fill != null) {
+        //draw internal, filled rect
+        if (fill != null) {
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             glColor3f(fill.red, fill.blue, fill.green);
             glBegin(GL_POLYGON);
             glVertex2f(startX, startY);
-            glVertex2f(startY, endY);
-            glVertex2f(endY, endX);
-            glVertex2f(endX, startX);
+            glVertex2f(startX, endY);
+            glVertex2f(endX, endY);
+            glVertex2f(endX, startY);
             glEnd();
         }
 
-        //TODO: fix strokeWidths > 1
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        glEnable(GL_LINE_SMOOTH);
-        glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-        glColor3f(stroke.red, stroke.blue, stroke.green);
+        //to avoid bad strokes (cut out corners), draw strokes as rects individual
+        //setup
+        var aspectRatio = (height == 0) ? 1.0f : (float) width / (float) height;
+        var hX = this.strokeWidth * 0.005f;
+        var hY = hX * aspectRatio;
+
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        glColor3f(stroke.red, stroke.green, stroke.blue);
+
+        //top rect
         glBegin(GL_POLYGON);
-        glVertex2f(startX, startY);
-        glVertex2f(startY, endY);
-        glVertex2f(endY, endX);
-        glVertex2f(endX, startX);
+        glVertex2f(startX - hX, endY - hY);
+        glVertex2f(startX - hX, endY + hY);
+        glVertex2f(endX + hX, endY + hY);
+        glVertex2f(endX + hX, endY - hY);
+        glEnd();
+
+        //right rect
+        glBegin(GL_POLYGON);
+        glVertex2f(endX - hX, endY + hY);
+        glVertex2f(endX + hX, endY + hY);
+        glVertex2f(endX + hX, startY - hY);
+        glVertex2f(endX - hX, startY - hY);
+        glEnd();
+
+        //bottom rect
+        glBegin(GL_POLYGON);
+        glVertex2f(startX - hX, startY + hY);
+        glVertex2f(endX + hX, startY + hY);
+        glVertex2f(endX + hX, startY - hY);
+        glVertex2f(startX - hX, startY - hY);
+        glEnd();
+
+        //left rect
+        glBegin(GL_POLYGON);
+        glVertex2f(startX - hX, endY + hY);
+        glVertex2f(startX + hX, endY + hY);
+        glVertex2f(startX + hX, startY - hY);
+        glVertex2f(startX - hX, startY - hY);
         glEnd();
     }
 

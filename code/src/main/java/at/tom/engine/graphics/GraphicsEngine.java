@@ -37,11 +37,15 @@ public class GraphicsEngine {
     //region Constructor
     public GraphicsEngine(GraphicDraw graphicDraw) {
         this.graphicDraw = graphicDraw;
+        this.graphicDraw.height = windowHeight;
+        this.graphicDraw.width = windowWidth;
     }
 
     public GraphicsEngine(GraphicDraw graphicDraw,String windowTitle) {
         this.graphicDraw = graphicDraw;
         this.windowTitle = windowTitle;
+        this.graphicDraw.height = windowHeight;
+        this.graphicDraw.width = windowWidth;
     }
     //endregion
 
@@ -112,6 +116,8 @@ public class GraphicsEngine {
         glfwSetWindowSizeCallback(window, (window, width, height) -> {
             this.windowHeight = height;
             this.windowWidth = width;
+            graphicDraw.height = height;
+            graphicDraw.width = width;
             LOG.debug("Windows resized to size: {}x{}", width, height);
             glViewport(0, 0, width, height);
         });
