@@ -67,11 +67,6 @@ abstract public class GraphicDraw {
     //endregion
 
     public void line(float startX, float startY, float endX, float endY) {
-        startX = convertX(startX);
-        startY = convertY(startY);
-        endX = convertX(endX);
-        endY = convertY(endY);
-
         glColor3f(stroke.red, stroke.blue, stroke.green);
         glBegin(GL_LINES);
         glVertex2f(startX, startY);
@@ -80,11 +75,6 @@ abstract public class GraphicDraw {
     }
 
     public void rect(float startX, float startY, float endX, float endY) {
-        startX = convertX(startX);
-        startY = convertY(startY);
-        endX = convertX(endX);
-        endY = convertY(endY);
-
         //draw internal, filled rect
         if (fill != null) {
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -100,7 +90,7 @@ abstract public class GraphicDraw {
         //to avoid bad strokes (cut out corners), draw strokes as rects individual
         //setup
         var aspectRatio = (height == 0) ? 1.0f : (float) width / (float) height;
-        var hX = this.strokeWidth * 0.005f;
+        var hX = this.strokeWidth;
         var hY = hX * aspectRatio;
 
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -137,13 +127,6 @@ abstract public class GraphicDraw {
         glVertex2f(startX + hX, startY - hY);
         glVertex2f(startX - hX, startY - hY);
         glEnd();
-    }
-
-    private float convertX(float x) {
-        return (x / 50) - 1;
-    }
-    private float convertY(float y) {
-        return (y / 50) - 1;
     }
 
 }
